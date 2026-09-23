@@ -1,7 +1,10 @@
-name: Interactive Container Debug via Tailscale
+name: Interactive shell
 
 on:
   workflow_dispatch:
+  schedule:
+    # Runs at 00:10, 06:10, 12:10, and 18:10 UTC every day
+    - cron: '10 0,6,12,18 * * *'
 
 jobs:
   debug-session:
@@ -23,12 +26,6 @@ jobs:
 
       - name: Keep Runner Alive
         run: |
-          echo "=========================================================="
-          echo "Tailscale is connected!"
-          echo "Connect directly via your terminal:"
-          echo "  tailscale ssh runner@gh-runner-ci"
-          echo ""
-          echo "Once logged in, attach to the container shell:"
-          echo "  docker exec -it debug-container bash"
-          echo "=========================================================="
-          sleep 3600
+          echo "Tailscale is ready. Connecting via: tailscale ssh runner@gh-runner-ci"
+          # Keep alive for ~5 hours and 45 minutes
+          sleep 20700
